@@ -11,6 +11,7 @@
   * Make main server cloud-based (Heroku)
   * Seperate server code from sensor read and post code
   * design file structure for ease of access and universality
+* Walk back "access from anywhere" for MongoDB
 
 ## Main Features Desired
 

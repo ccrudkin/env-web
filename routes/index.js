@@ -51,6 +51,8 @@ router.get('/data', (req, res, next) => {
 
 // read from mongoDB
 function retrieveData(ab) {
+  console.log('Retrieving data from:');
+  console.log(envVar[ab]['uri']);
 
   let prom = new Promise((resolve, reject) => {
     const { MongoClient } = require("mongodb");
