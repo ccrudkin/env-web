@@ -22,7 +22,7 @@ const envVar = {
 let currentData;
 
 /* GET home page. */
-router.get('/', function() {
+router.get('/', function(req, res) {
   res.redirect('/unit/a');
 });
 
