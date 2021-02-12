@@ -1,0 +1,67 @@
+/* ELEMENTS */
+a {
+  color: #00B7FF;
+}
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+/* CLASSES */
+
+.heading {
+  text-align: center;
+  margin: 1em 0em 3em 0em;
+}
+
+.paddingTop {
+  padding-top: 1em;
+}
+
+.paddingBottom {
+  padding-bottom: 1em;
+}
+
+.paddingTopBottom {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.readout {
+  font-size: 4em;
+}
+
+.readout-container {
+  text-align: center;
+  margin-bottom: 2.5em;
+}
+
+.temp {
+  color: #873600;
+}
+
+.hum {
+  color: #1a5276;
+}
+
+/* IDs */
+#smallScreenMsg {
+  display: none;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 767px) {
+  body {
+    padding: 25px 15px;
+  }
+
+  #chartContainer {
+    display: none;
+  }
+  
+  #smallScreenMsg {
+    display: block;
+  }
+}
