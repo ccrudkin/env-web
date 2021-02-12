@@ -1,21 +1,34 @@
 require('dotenv').config();
 var express = require('express');
 var router = express.Router();
-var exec = require('child_process').exec;
-var sensor = require("node-dht-sensor");
-const uri = process.env.mongodbUrl;
-const location = process.env.location;
-const mdbName = process.env.mdbName;
-const mdbColl = process.env.mdbColl;
+const uriA = process.env.mongodbUrlA;
+const uriB = process.env.mongodbUrlB;
+const mdbNameA = process.env.mdbNameA;
+const mdbCollA = process.env.mdbCollA;
+const mdbNameB = process.env.mdbNameB;
+const mdbCollB = process.env.mdbCollB;
+const envVar = {
+  'a': {
+    'uri': uriA,
+    'mdbName': mdbNameA,
+    'mdbColl': mdbCollA
+  },
+  'b': {
+    'uri': uriB,
+    'mdbName': mdbNameB,
+    'mdbColl': mdbCollB
+  }
+}
 let currentData;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  retrieveData()
+  retrieveData('a')
   .then((rData) => { 
     let currentTemp = (((rData[rData.length - 1]['data']['temp']) * ( 9 / 5 )) + 32).toFixed(1);
     let currentHum = rData[rData.length - 1]['data']['humidity'].toFixed(1);
     let currentTimestamp = rData[rData.length - 1]['datetime']['timestamp'];
+    let location = rData[rData.length - 1]['location'];
     // render with unit location as well
     res.render('index', { 
       title: 'Home Environment Monitor', tempF: currentTemp, humidity: currentHum, date: currentTimestamp, location: location }); 
@@ -36,85 +49,19 @@ router.get('/data', (req, res, next) => {
   });
 });
 
-// read sensor
-// sample from https://github.com/momenso/node-dht-sensor
-
-let tf;
-let hum;
-let date;
-let mdbData;
-
-function readSensor() {
-  sensor.read(22, 4, function(err, temperature, humidity) {
-    if (!err) {
-      let tempF = (temperature * ( 9 / 5 )) + 32;
-      tf = `${tempF.toFixed(1)}`;
-      hum = `${humidity.toFixed(1)}`;
-      date = new Date();      
-      console.log(`temp: ${temperature}°C / ${tf}°F, humidity: ${hum}% 
-      @ ${date}`);
-
-      mdbData = {
-          "datetime": {
-              "timestamp": date,
-              "ms": date.getTime()
-          },
-          "data": {
-              "temp": temperature,
-              "humidity": humidity
-          },
-          "location": location
-      }      
-
-      postData(mdbData);
-    }
-  });  
-}
-
-setTimeout(readSensor, 60000);
-setInterval(readSensor, 300000);
-
-// post to mongoDB
-function postData(d) {
-  const MongoClient = require('mongodb').MongoClient;
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-  async function run() {
-    try {
-      await client.connect();
-
-      const database = client.db(mdbName);
-      const collection = database.collection(mdbColl);
-
-      // create a document to be inserted
-      const doc = d;
-      const result = await collection.insertOne(doc);
-
-      console.log(
-        `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
-      );
-    } catch (err) {
-      console.log(`Unable to post data: ${err}`);
-      reboot();
-    } finally {
-      await client.close();
-    }
-  }
-
-  run().catch(console.dir);
-}
-
 // read from mongoDB
-function retrieveData() {
+function retrieveData(ab) {
+
   let prom = new Promise((resolve, reject) => {
     const { MongoClient } = require("mongodb");
-    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    const client = new MongoClient(envVar[ab]['uri'], { useUnifiedTopology: true });
     
     async function run() {
       try {
         await client.connect();
   
-        const database = client.db(mdbName);
-        const collection = database.collection(mdbColl);
+        const database = client.db(envVar[ab]['mdbName']);
+        const collection = database.collection(envVar[ab]['mdbColl']);
   
         // CREATE query for the last 48 hours
         let timeNow = new Date();
@@ -157,18 +104,5 @@ function fetchCurrentData() {
   });
   return prom;
 }
-
-function reboot() {
-
-  console.log(`Rebooting RPi @ ${new Date()} ...`);
-
-  exec('sh /usr/local/bin/reboot.sh', function(error, stdout, stderr) {
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);
-      if (error !== null) {
-          console.log('exec error: ' + error);
-      }
-  });
-};
 
 module.exports = router;

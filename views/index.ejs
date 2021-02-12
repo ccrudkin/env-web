@@ -23,6 +23,11 @@
                         <%= title %>
                     </h1>         
                 </div>
+                <div class="paddingTopBottom text-center">
+                    <h4>Select unit:</h4>
+                    <button class="btn-primary" id="btn-alpha">Alpha</button>
+                    <button class="btn-secondary" id="btn-beta">Beta</button>
+                </div>                
             </div>
         </div>
         <div class="row">
@@ -50,7 +55,7 @@
                     <p class="text-small">
                         Data timestamp: <%= date %>
                     </p>
-                    <p>Location: <%= location %></p>
+                    <p>Current location: <span class="location"><%= location %></span></p>
                 </div>
             </div>
         </div>
