@@ -22,8 +22,13 @@ const envVar = {
 let currentData;
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  retrieveData('a')
+router.get('/unit/:ab', function(req, res, next) {
+  let ab = 'a';
+  if (req.params) {
+    ab = req.params['unit'];
+  }
+  
+  retrieveData(ab)
   .then((rData) => { 
     let currentTemp = (((rData[rData.length - 1]['data']['temp']) * ( 9 / 5 )) + 32).toFixed(1);
     let currentHum = rData[rData.length - 1]['data']['humidity'].toFixed(1);
