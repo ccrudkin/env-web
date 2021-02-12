@@ -22,7 +22,11 @@ const envVar = {
 let currentData;
 
 /* GET home page. */
-router.get('/unit/:ab', function(req, res, next) {
+router.get('/', function() {
+  res.redirect('/unit/a');
+});
+
+router.get('/unit/:unit', function(req, res, next) {
   let ab = 'a';
   if (req.params) {
     ab = req.params['unit'];
