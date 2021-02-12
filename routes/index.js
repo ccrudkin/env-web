@@ -37,10 +37,11 @@ router.get('/unit/:unit', function(req, res, next) {
     let currentTemp = (((rData[rData.length - 1]['data']['temp']) * ( 9 / 5 )) + 32).toFixed(1);
     let currentHum = rData[rData.length - 1]['data']['humidity'].toFixed(1);
     let currentTimestamp = rData[rData.length - 1]['datetime']['timestamp'];
-    let location = rData[rData.length - 1]['location'];
+    let location = rData[rData.length - 1]['location'];    
     // render with unit location as well
     res.render('index', { 
-      title: 'Home Environment Monitor', tempF: currentTemp, humidity: currentHum, date: currentTimestamp, location: location }); 
+      title: 'Home Environment Monitor', tempF: currentTemp, humidity: currentHum, 
+      date: currentTimestamp, location: location, unit: ab }); 
   })
   .catch((err) => { 
     res.render('index', { 
