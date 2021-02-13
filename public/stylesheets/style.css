@@ -12,7 +12,6 @@ body {
 
 .btn {
   min-width: 6em;
-  margin: 0 -1.75em;
 }
 
 .heading {
@@ -44,20 +43,6 @@ body {
 
 .temp {
   color: #873600;
-}
-
-.unit-buttons {
-  display: flex;
-  justify-content: center;
-}
-
-.unit-button-container {
-  padding-bottom: .5em;
-  margin: 0 2em;
-}
-
-.button-current {
-  border-bottom: 2px solid #ec7063;
 }
 
 .unit-buttons-outer {
