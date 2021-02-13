@@ -1,13 +1,13 @@
 $(document).ready(() => {
     if ($('#unitAB').text() === 'a') {
-        $('#btn-alpha').addClass('button-primary');
-        $('#btn-alpha').removeClass('button-secondary');
-        $('#btn-beta').addClass('button-secondary');
-        $('#btn-beta').removeClass('button-primary');
+        $('#btn-alpha').addClass('btn-primary');
+        $('#btn-alpha').removeClass('btn-secondary');
+        $('#btn-beta').addClass('btn-secondary');
+        $('#btn-beta').removeClass('btn-primary');
     } else if ($('#unitAB').text() === 'b') {
-        $('#btn-beta').addClass('button-primary');
-        $('#btn-beta').removeClass('button-secondary');
-        $('#btn-alpha').addClass('button-secondary');
-        $('#btn-alpha').removeClass('button-primary');
+        $('#btn-beta').addClass('btn-primary');
+        $('#btn-beta').removeClass('btn-secondary');
+        $('#btn-alpha').addClass('btn-secondary');
+        $('#btn-alpha').removeClass('btn-primary');
     }
 });
