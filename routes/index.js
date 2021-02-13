@@ -36,7 +36,7 @@ router.get('/unit/:unit', function(req, res, next) {
   .then((rData) => { 
     let currentTemp = (((rData[rData.length - 1]['data']['temp']) * ( 9 / 5 )) + 32).toFixed(1);
     let currentHum = rData[rData.length - 1]['data']['humidity'].toFixed(1);
-    let currentTimestamp = rData[rData.length - 1]['datetime']['timestamp'].toString();
+    let currentTimestamp = rData[rData.length - 1]['datetime']['timestamp'].toLocaleString('en-US', 'America/Denver', 'full');
     let location = rData[rData.length - 1]['location'];    
     // render with unit location as well
     res.render('index', { 
