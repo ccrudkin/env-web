@@ -1,6 +1,7 @@
 # Temperature and Humidity Monitor
 
 ## TODO:
+* \+\+ Reset logs
 * Stabilize unsupervised running.
   * Why does it fail? WiFi/Internet disconnect? How to resolve?
     * New pi doesn't fail, so it must be an onboard wifi issue. Simpler way to resolve than reboot?
@@ -16,7 +17,7 @@
 * \[x\] Display local time
 * \[x\] Highlight unit
 * \[x\] Style buttons
-* Give long chart option (5 or 7 days?)
+* \+ Give long chart option (5 or 7 days?)
 
 ## Main Features Desired
 
